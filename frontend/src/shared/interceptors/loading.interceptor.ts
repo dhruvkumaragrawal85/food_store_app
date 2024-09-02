@@ -15,12 +15,13 @@ export class LoadingInterceptor implements HttpInterceptor {
   constructor(private loadingService: LoadingService) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+    //intercept method called for every http operation, 
     this.loadingService.showLoading();
 
     pendingRequests = pendingRequests + 1;
 
     return next.handle(request).pipe(
-      tap({
+      tap({//tap to perform side operations with disturbing main stream
         next:(event) => {
             //happy part
           if(event.type === HttpEventType.Response){

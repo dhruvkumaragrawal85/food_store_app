@@ -1,22 +1,23 @@
-import { AbstractControl } from "@angular/forms"
+import { AbstractControl, ValidationErrors, ValidatorFn } from "@angular/forms"
 
-export const PasswordsMatchValidator = (passwordControlName: string,
-    confirmPasswordControlName: string) => {
-      const validator = (form: AbstractControl) => {//validator is another function
-        const passwordControl =  form.get(passwordControlName);//find a control in this form
-        const confirmPasswordControl =  form.get(confirmPasswordControlName);//for confirm password
+export const PasswordsMatchValidator = (passwordControlName: string, confirmPasswordControlName: string): ValidatorFn => {
+    const validator = (form: AbstractControl): ValidationErrors | null => {
+        const passwordControl = form.get(passwordControlName);
+        const confirmPasswordControl = form.get(confirmPasswordControlName);
 
-        if(!passwordControl || !confirmPasswordControl) return;//if undef just return false
+        if(!passwordControl || !confirmPasswordControl) return null; 
+        if (passwordControl.value !== confirmPasswordControl.value) {
+            confirmPasswordControl.setErrors({ notMatch: true });
+            return { notMatch: true };
+        }else {
+            const errors = confirmPasswordControl.errors;
+            if(!errors) return null;
 
-        if(passwordControl.value !== confirmPasswordControl.value){
-          confirmPasswordControl.setErrors({notMatch: true});
-        }else{
-          const errors = confirmPasswordControl.errors;
-          if(!errors) return;
-
-          delete errors.notMatch;
-          confirmPasswordControl.setErrors(errors);
+            delete errors.notMatch;
+            confirmPasswordControl.setErrors(errors);
+            return null;
         }
-      }
-      return validator;//return the whole function
     }
+
+    return validator;
+}

@@ -14,7 +14,7 @@ export class FoodService {
   constructor(private http:HttpClient) { }
 
   getAll(): Observable<Food[]> {
-    return this.http.get<Food[]>(FOODS_URL);
+    return this.http.get<Food[]>(FOODS_URL);//get request to foods_url
   }
 
   getAllFoodsBySearchTerm(searchTerm: string) {

@@ -17,3 +17,6 @@ export const ORDER_CREATE_URL = ORDERS_URL + '/create';
 export const ORDER_NEW_FOR_CURRENT_USER_URL = ORDERS_URL + '/newOrderForCurrentUser';
 export const ORDER_PAY_URL = ORDERS_URL + '/pay';
 export const ORDER_TRACK_URL = ORDERS_URL + '/track/';
+
+export const USER_UPDATE_PROFILE_URL = BASE_URL + '/api/users/updateProfile';
+export const USER_CHANGE_PASSWORD_URL = BASE_URL + '/api/users/changePassword';

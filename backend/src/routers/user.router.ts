@@ -6,6 +6,7 @@ import { User, UserModel } from "../models/user.model";
 import { HTTP_BAD_REQUEST } from "../constants/http_status";
 import dotenv from 'dotenv'
 import bcrypt from 'bcryptjs';
+import auth from "../middlewares/auth.mid";
 const JWT_SECRET = process.env.JWT_SECRET || 'defaultSecret';
 dotenv.config();
 const router=Router();
@@ -73,6 +74,53 @@ router.post('/register', asyncHandler(
     res.send(generateTokenResponse(dbUser));
   }
 ))
+
+
+router.put(
+  "/updateProfile",
+  auth,
+  asyncHandler(async (req: any, res) => {
+      const { name, address } = req.body;
+      const user = await UserModel.findByIdAndUpdate(
+          req.user.id,
+          { name, address },
+          { new: true }
+      );
+
+      if (user) {
+          res.send(generateTokenResponse(user));
+      } else {
+          res.status(HTTP_BAD_REQUEST).send("User not found!");
+      }
+
+      // OR res.send(generateTokenResponse(user!));
+  })
+);
+
+router.put(
+  "/changePassword",
+  auth,
+  asyncHandler(async (req: any, res) => {
+      const { currentPassword, newPassword } = req.body;
+      const user = await UserModel.findById(req.user.id);
+
+      if (!user) {
+          res.status(HTTP_BAD_REQUEST).send("User not found!");
+          return;
+      }
+
+      const equal = await bcrypt.compare(currentPassword, user.password);
+      if (!equal) {
+          res.status(HTTP_BAD_REQUEST).send("Curent Password Is Not Correct!");
+      } else {
+          user.password = await bcrypt.hash(newPassword, 10);
+          await user.save();
+
+          res.send();
+      }
+  })
+);
+
 
   const generateTokenResponse = (user:any)=>{
     const token=jwt.sign({

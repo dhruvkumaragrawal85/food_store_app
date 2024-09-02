@@ -14,11 +14,11 @@ export class HeaderComponent implements OnInit {
   user!:User;
   constructor(cartService:CartService,private userService:UserService) {
     cartService.getCartObservable().subscribe((newCart) => {
-      this.cartQuantity = newCart.totalCount;
+      this.cartQuantity = newCart.totalCount;//create new cart
     })
 
     userService.userObservable.subscribe((newUser) => {
-      this.user = newUser;
+      this.user = newUser;//create new user
     })
    }
 

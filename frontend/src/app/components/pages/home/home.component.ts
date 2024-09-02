@@ -13,8 +13,8 @@ export class HomeComponent implements OnInit{
 
   foods:Food[] = [];
   constructor(private foodService:FoodService, activatedRoute:ActivatedRoute) {
-    let foodObservable:Observable<Food[]>;
-    activatedRoute.params.subscribe((params) => {
+    let foodObservable:Observable<Food[]>;//make new observable
+    activatedRoute.params.subscribe((params) => {//
       if(params.searchTerm)
       foodObservable = this.foodService.getAllFoodsBySearchTerm(params.searchTerm);
       else if (params.tag)

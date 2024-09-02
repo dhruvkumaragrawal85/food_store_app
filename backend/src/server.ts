@@ -12,7 +12,7 @@ import orderRouter from './routers/order.router';
 
 dbConnect();
 const app = express();
-
+//create express app
 app.use(express.json());
 
 
