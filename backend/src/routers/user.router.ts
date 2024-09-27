@@ -34,8 +34,8 @@ router.get("/seed", asyncHandler(
 ))
 router.post("/login", asyncHandler(
   async (req, res) => {
-    const {email, password} = req.body;
-    const user = await UserModel.findOne({email});
+    const {email, password} = req.body;//received from frontend
+    const user = await UserModel.findOne({email});//search if matching email exists
   
      if(user && (await bcrypt.compare(password,user.password))) {
       res.send(generateTokenResponse(user));
@@ -51,7 +51,7 @@ router.post("/login", asyncHandler(
 
 router.post('/register', asyncHandler(
   async (req, res) => {
-    const {name, email, password, address} = req.body;
+    const {name, email, password, address} = req.body;//from request it will get
     const user = await UserModel.findOne({email});
     if(user){//if email exists error
       res.status(HTTP_BAD_REQUEST)

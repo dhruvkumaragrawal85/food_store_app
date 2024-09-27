@@ -27,7 +27,7 @@ export class UserService {
 
   
   login(userLogin:IUserLogin):Observable<User>{
-    return this.http.post<User>(USER_LOGIN_URL, userLogin).pipe(
+    return this.http.post<User>(USER_LOGIN_URL, userLogin).pipe(//Used to stitch together functional operators into a chain.
       tap({
         next: (user) =>{
           this.setUserToLocalStorage(user);
@@ -53,7 +53,7 @@ export class UserService {
         //without modifying the emitted values
         next: (user) => {
           this.setUserToLocalStorage(user);
-          this.userSubject.next(user);
+          this.userSubject.next(user);//to keep logged in
           this.toastrService.success(
             `Welcome to the Foodmine ${user.name}`,
             'Register Successful'

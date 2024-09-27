@@ -39,9 +39,8 @@ export class MapComponent implements OnChanges {
   private readonly DEFAULT_LATLNG: LatLngTuple = [28.75, 77.1];
   ngOnChanges(): void {
     if(!this.order) return;
-    this.initializeMap();
-
-    if(this.readonly && this.addressLatLng){
+    this.initializeMap();//initialize map on changes
+    if(this.readonly && this.addressLatLng){//if readonly true and addresslatlang set that turn on read only
       this.showLocationOnReadonlyMode();
     }
   }
@@ -110,7 +109,7 @@ export class MapComponent implements OnChanges {
     latlng.lat = parseFloat(latlng.lat.toFixed(8));//so mongoDb accepts
     latlng.lng = parseFloat(latlng.lng.toFixed(8));//to fix only takes number
     this.order.addressLatLng = latlng;
-    console.log(this.order.addressLatLng);
+    console.log(this.order.addressLatLng);//comment
   }
 
   get addressLatLng(){
